@@ -361,7 +361,7 @@ static void MX_SAI4_Init(void)
   hsai_BlockA4.SlotInit.FirstBitOffset = 0;
   hsai_BlockA4.SlotInit.SlotSize = SAI_SLOTSIZE_DATASIZE;
   hsai_BlockA4.SlotInit.SlotNumber = 1;
-  hsai_BlockA4.SlotInit.SlotActive = 0x00000000;
+  hsai_BlockA4.SlotInit.SlotActive = 0x0000FFFF;
   if (HAL_SAI_Init(&hsai_BlockA4) != HAL_OK)
   {
     Error_Handler();
