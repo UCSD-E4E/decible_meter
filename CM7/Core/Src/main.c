@@ -209,22 +209,28 @@ Error_Handler();
   MX_USART1_UART_Init();
   MX_SAI4_Init();
   /* USER CODE BEGIN 2 */
-  printf("Starting SAI DMA...\r\n");
-  if (HAL_SAI_Receive_DMA(&hsai_BlockA4, (uint8_t *)audio_buffer, BUFFER_SIZE) != HAL_OK) {
-      printf("SAI DMA initialization failed! Error: %ld\r\n", hsai_BlockA4.ErrorCode);
-  } else {
-      printf("SAI DMA started successfully.\r\n");
-  }
+//  printf("Starting SAI DMA...\r\n");
+//  if (HAL_SAI_Receive_DMA(&hsai_BlockA4, (uint8_t *)audio_buffer, BUFFER_SIZE) != HAL_OK) {
+//      printf("SAI DMA initialization failed! Error: %ld\r\n", hsai_BlockA4.ErrorCode);
+//  } else {
+//      printf("SAI DMA started successfully.\r\n");
+//  }
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	  if (HAL_SAI_Receive(&hsai_BlockA4, (void*) audio_buffer, BUFFER_SIZE, 2000))
+	  {
+		  printf("SAI Read Fail\r\n");
+		  continue;
+	  }
 	  printf("Audio Buffer Data:\r\n");
-	      for (int i = 0; i < 10; i++) {
-	          printf("[%d]: %d\r\n", i, audio_buffer[i]);
-	      }
+	  hexDump(audio_buffer,  BUFFER_SIZE);
+//	      for (int i = 0; i < 10; i++) {
+//	          printf("[%d]: %d\r\n", i, audio_buffer[i]);
+//	      }
 	      float decibel_level = calculate_decibel(audio_buffer, BUFFER_SIZE);
 	      printf("SPL: %.2f dB\r\n", decibel_level);
 	      HAL_Delay(1000);
