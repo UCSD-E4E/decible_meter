@@ -66,7 +66,7 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-decible_meter_CM7.elf \
+USER_OBJS.elf \
 
 MAP_FILES += \
 decible_meter_CM7.map \
@@ -85,9 +85,9 @@ all: main-build
 main-build: decible_meter_CM7.elf secondary-outputs
 
 # Tool invocations
-decible_meter_CM7.elf decible_meter_CM7.map: $(OBJS) $(USER_OBJS) /Users/user/STM32CubeIDE/workspace_1.16.1/decible_meter/CM7/STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "decible_meter_CM7.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"/Users/user/STM32CubeIDE/workspace_1.16.1/decible_meter/CM7/STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="decible_meter_CM7.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
-	@echo 'Finished building target: $@'
+USER_OBJS.elf decible_meter_CM7.map: $(OBJS) $(USER_OBJS) D:\workspace\tmp\2024-12-02_aid_embedded_ml\decible_meter\CM7\STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-g++ -o "USER_OBJS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\workspace\tmp\2024-12-02_aid_embedded_ml\decible_meter\CM7\STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="decible_meter_CM7.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
+	@echo 'Finished building: $@'
 	@echo ' '
 
 default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
@@ -102,7 +102,7 @@ decible_meter_CM7.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEP
 
 # Other Targets
 clean:
-	-$(RM) decible_meter_CM7.elf decible_meter_CM7.list decible_meter_CM7.map default.size.stdout
+	-$(RM) USER_OBJS.elf decible_meter_CM7.elf decible_meter_CM7.list decible_meter_CM7.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
