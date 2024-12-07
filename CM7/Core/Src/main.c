@@ -24,7 +24,7 @@
 #include "math.h"
 #include <stdio.h>
 #include <string.h> // Added for memset
-#define BUFFER_SIZE 1024  // Size of the audio buffer
+#define BUFFER_SIZE 256000  // Size of the audio buffer
 #define REFERENCE_VOLTAGE 0.00002f
 /* USER CODE END Includes */
 
@@ -95,7 +95,7 @@ int _write(int file, char *ptr, int len) {
     return len;
 }
 
-#define BYTES_PER_LINE 16
+#define BYTES_PER_LINE 32
 
 void hexDump(const void *memoryLocation, size_t buflen)
 {
@@ -130,7 +130,7 @@ void hexDump(const void *memoryLocation, size_t buflen)
         for (;line_idx < BYTES_PER_LINE; line_idx++)
         {
         	printf("   ");
-            if (7 == line_idx)
+            if (y == line_idx % 8)
             {
             	printf(" ");
             }
@@ -227,7 +227,7 @@ Error_Handler();
 		  continue;
 	  }
 	  printf("Audio Buffer Data:\r\n");
-	  hexDump(audio_buffer,  BUFFER_SIZE);
+//	  hexDump(audio_buffer,  BUFFER_SIZE);
 //	      for (int i = 0; i < 10; i++) {
 //	          printf("[%d]: %d\r\n", i, audio_buffer[i]);
 //	      }
