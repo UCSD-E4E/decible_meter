@@ -24,7 +24,7 @@
 #include "math.h"
 #include <stdio.h>
 #include <string.h> // Added for memset
-#define BUFFER_SIZE 256000  // Size of the audio buffer
+#define BUFFER_SIZE 4096  // Size of the audio buffer
 #define REFERENCE_VOLTAGE 0.00002f
 /* USER CODE END Includes */
 
@@ -96,49 +96,6 @@ int _write(int file, char *ptr, int len) {
 }
 
 #define BYTES_PER_LINE 32
-
-void hexDump(const void *memoryLocation, size_t buflen)
-{
-    size_t buffer_idx = 0;
-    uint8_t byte_buffer[BYTES_PER_LINE + 1];
-    const uint8_t* data_window = (const uint8_t*) memoryLocation;
-    int bytes_read = 0;
-    size_t line_idx = 0;
-
-    for(buffer_idx = 0; buffer_idx < buflen; buffer_idx += bytes_read)
-    {
-        printf("%08x  ", buffer_idx);
-        memset(byte_buffer, 0, BYTES_PER_LINE + 1);
-        bytes_read = ((buffer_idx + BYTES_PER_LINE) < buflen) ? BYTES_PER_LINE : buflen - buffer_idx;
-        memcpy(byte_buffer, data_window + buffer_idx, bytes_read);
-
-        // Print hex
-        for (line_idx = 0; line_idx < (size_t) bytes_read; line_idx++)
-        {
-        	printf("%02hx ", byte_buffer[line_idx]);
-            if (7 == line_idx)
-            {
-            	printf(" ");
-            }
-            // Make the byte printable
-            if (!isprint(byte_buffer[line_idx]))
-            {
-                byte_buffer[line_idx] = (uint8_t)'.';
-            }
-        }
-        // fill line
-        for (;line_idx < BYTES_PER_LINE; line_idx++)
-        {
-        	printf("   ");
-            if (y == line_idx % 8)
-            {
-            	printf(" ");
-            }
-        }
-        printf(" |%s|\r\n", (const char*)byte_buffer);
-    }
-    printf("%08x\r\n", buffer_idx);
-}
 /* USER CODE END 0 */
 
 /**
@@ -226,11 +183,12 @@ Error_Handler();
 		  printf("SAI Read Fail\r\n");
 		  continue;
 	  }
+	  printf("----------------------------");
+	  printf("SAI State: %d", HAL_SAI_GetState(&hsai_BlockA4));
 	  printf("Audio Buffer Data:\r\n");
-//	  hexDump(audio_buffer,  BUFFER_SIZE);
-//	      for (int i = 0; i < 10; i++) {
-//	          printf("[%d]: %d\r\n", i, audio_buffer[i]);
-//	      }
+	  for (int i = 0; i < 10; i++) {
+		  printf("[%d]: %d\r\n", i, audio_buffer[i]);
+	  }
 	      float decibel_level = calculate_decibel(audio_buffer, BUFFER_SIZE);
 	      printf("SPL: %.2f dB\r\n", decibel_level);
 	      HAL_Delay(1000);
@@ -334,7 +292,8 @@ static void MX_SAI4_Init(void)
   hsai_BlockA4.Init.ClockStrobing = SAI_CLOCKSTROBING_FALLINGEDGE;
   hsai_BlockA4.Init.Synchro = SAI_ASYNCHRONOUS;
   hsai_BlockA4.Init.OutputDrive = SAI_OUTPUTDRIVE_DISABLE;
-  hsai_BlockA4.Init.NoDivider = SAI_MASTERDIVIDER_ENABLE;
+  hsai_BlockA4.Init.NoDivider = SAI_MCK_OVERSAMPLING_DISABLE;
+  hsai_BlockA4.Init.MckOverSampling = SAI_MCK_OVERSAMPLING_DISABLE;
   hsai_BlockA4.Init.FIFOThreshold = SAI_FIFOTHRESHOLD_HF;
   hsai_BlockA4.Init.AudioFrequency = SAI_AUDIO_FREQUENCY_MCKDIV;
   hsai_BlockA4.Init.Mckdiv = 0;
@@ -433,16 +392,16 @@ static void MX_BDMA_Init(void)
   */
 static void MX_GPIO_Init(void)
 {
-/* USER CODE BEGIN MX_GPIO_Init_1 */
-/* USER CODE END MX_GPIO_Init_1 */
+  /* USER CODE BEGIN MX_GPIO_Init_1 */
+  /* USER CODE END MX_GPIO_Init_1 */
 
   /* GPIO Ports Clock Enable */
   __HAL_RCC_GPIOE_CLK_ENABLE();
   __HAL_RCC_GPIOA_CLK_ENABLE();
   __HAL_RCC_GPIOC_CLK_ENABLE();
 
-/* USER CODE BEGIN MX_GPIO_Init_2 */
-/* USER CODE END MX_GPIO_Init_2 */
+  /* USER CODE BEGIN MX_GPIO_Init_2 */
+  /* USER CODE END MX_GPIO_Init_2 */
 }
 
 /* USER CODE BEGIN 4 */
@@ -492,8 +451,7 @@ void Error_Handler(void)
   }
   /* USER CODE END Error_Handler_Debug */
 }
-
-#ifdef  USE_FULL_ASSERT
+#ifdef USE_FULL_ASSERT
 /**
   * @brief  Reports the name of the source file and the source line number
   *         where the assert_param error has occurred.

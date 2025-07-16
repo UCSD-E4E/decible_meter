@@ -1,6 +1,6 @@
 ################################################################################
 # Automatically-generated file. Do not edit!
-# Toolchain: GNU Tools for STM32 (12.3.rel1)
+# Toolchain: GNU Tools for STM32 (13.3.rel1)
 ################################################################################
 
 -include ../makefile.init
@@ -16,38 +16,14 @@ RM := rm -rf
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
-ifneq ($(strip $(CC_DEPS)),)
--include $(CC_DEPS)
-endif
-ifneq ($(strip $(C++_DEPS)),)
--include $(C++_DEPS)
-endif
-ifneq ($(strip $(CCM_DEPS)),)
--include $(CCM_DEPS)
-endif
-ifneq ($(strip $(C_UPPER_DEPS)),)
--include $(C_UPPER_DEPS)
-endif
-ifneq ($(strip $(CXX_DEPS)),)
--include $(CXX_DEPS)
-endif
 ifneq ($(strip $(S_DEPS)),)
 -include $(S_DEPS)
 endif
 ifneq ($(strip $(S_UPPER_DEPS)),)
 -include $(S_UPPER_DEPS)
 endif
-ifneq ($(strip $(CXXM_DEPS)),)
--include $(CXXM_DEPS)
-endif
-ifneq ($(strip $(C++M_DEPS)),)
--include $(C++M_DEPS)
-endif
 ifneq ($(strip $(C_DEPS)),)
 -include $(C_DEPS)
-endif
-ifneq ($(strip $(CPP_DEPS)),)
--include $(CPP_DEPS)
 endif
 endif
 
@@ -66,7 +42,7 @@ BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ART
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-USER_OBJS.elf \
+decible_meter_CM7.elf \
 
 MAP_FILES += \
 decible_meter_CM7.map \
@@ -85,9 +61,9 @@ all: main-build
 main-build: decible_meter_CM7.elf secondary-outputs
 
 # Tool invocations
-USER_OBJS.elf decible_meter_CM7.map: $(OBJS) $(USER_OBJS) D:\workspace\tmp\2024-12-02_aid_embedded_ml\decible_meter\CM7\STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-g++ -o "USER_OBJS.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"D:\workspace\tmp\2024-12-02_aid_embedded_ml\decible_meter\CM7\STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="decible_meter_CM7.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -lstdc++ -lsupc++ -Wl,--end-group
-	@echo 'Finished building: $@'
+decible_meter_CM7.elf decible_meter_CM7.map: $(OBJS) $(USER_OBJS) C:\Users\milov\Documents\Work\Research\E4E\decible_meter\CM7\STM32H747XIHX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "decible_meter_CM7.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m7 -T"C:\Users\milov\Documents\Work\Research\E4E\decible_meter\CM7\STM32H747XIHX_FLASH.ld" --specs=nosys.specs -Wl,-Map="decible_meter_CM7.map" -Wl,--gc-sections -static -u _printf_float --specs=nano.specs -mfpu=fpv5-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	@echo 'Finished building target: $@'
 	@echo ' '
 
 default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
@@ -102,7 +78,7 @@ decible_meter_CM7.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEP
 
 # Other Targets
 clean:
-	-$(RM) USER_OBJS.elf decible_meter_CM7.elf decible_meter_CM7.list decible_meter_CM7.map default.size.stdout
+	-$(RM) decible_meter_CM7.elf decible_meter_CM7.list decible_meter_CM7.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

@@ -221,7 +221,6 @@ void SAI4_IRQHandler(void)
   /* USER CODE BEGIN SAI4_IRQn 0 */
 	HAL_SAI_IRQHandler(&hsai_BlockA4);
   /* USER CODE END SAI4_IRQn 0 */
-
   /* USER CODE BEGIN SAI4_IRQn 1 */
 
   /* USER CODE END SAI4_IRQn 1 */
